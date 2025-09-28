@@ -74,3 +74,9 @@ Un ejemplo claro de estas innovaciones es la introducción de sistemas para oper
 
 Frente a esta situación, se hace evidente la necesidad de una actualización tecnológica que permita unificar los procesos, generar registros claros y trazables, y optimizar la coordinación interna. La modernización de estos sistemas no solo mejorará la eficiencia operativa de las fuerzas de seguridad, sino que también garantizará una atención más ágil y precisa hacia la ciudadanía. Además, reducirá la dependencia de grabaciones extensas, favoreciendo la creación de informes estructurados y datos organizados que sirvan para la toma de decisiones y la planificación estratégica.
 
+
+
+# CAPÍTULO IV: DESARROLLO DEL TEMA / PRESENTACIÓN DE RESULTADOS 
+Lo primero que decidimos implementar fue el diagrama en el modelo relacional a partir de la investigaciones que hicimos sobre como funcionaba el sistema actual y las modificaciones que proponiamos. Este fue el resultado del mismo:
+
+![imagen1](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/ModeloRelacional_Operador911.jpg)
