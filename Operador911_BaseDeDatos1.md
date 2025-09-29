@@ -81,6 +81,6 @@ Lo primero que decidimos implementar fue el diagrama en el modelo relacional a p
 
 ![imagen1](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/ModeloRelacional_Operador911.jpg)
 
-DICCIONARIO DE DATOS
+DICCIONARIO DE DATOS\
 Este diccionario de datos documenta las tablas, campos y relaciones de la base de datos del proyecto. Su objetivo es facilitar la comprensión, el desarrollo y el mantenimiento del sistema, asegurando la correcta gestión e integridad de la información.
-
+Accesso al documento [PDF](DER/DiccionarioDeDatos.pdf) del diccionario de datos.
