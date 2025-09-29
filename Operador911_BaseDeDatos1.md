@@ -65,7 +65,25 @@ El proyecto tiene como objetivo principal desarrollar e implementar un sistema d
 
 6\: Escalabilidad y crecimiento futuro: Aunque el sistema comienza con la gestión básica de incidentes, podria ampliarse para automatizar muchos de los procesos como la geolocalizacion del llamado, el reporte automatizado, el autocompletado de datos en la llamadas, etc
 
- 
+ Alcance del Proyecto
+
+El alcance de este proyecto se centra en cubrir las funciones esenciales para la gestión de emergencias y recursos policiales en tiempo real, manteniendo un diseño simple, ágil y confiable, pero con la posibilidad de crecer en el futuro hacia un sistema más completo y automatizado. El alcance definido contempla las siguientes funcionalidades y limitaciones:
+
+1\ Registro de incidentes y llamados: Captura de la información básica de cada alerta recibida, asociada a la persona que realiza la denuncia.
+2\ Gestión de recursos policiales: Administración de patrullas disponibles, permitiendo su asignación según cercanía y prioridad del incidente.
+3\ Seguimiento en tiempo real: Posibilidad de controlar el estado de cada incidente desde que es reportado hasta su resolución.
+4\ Centralización de información: Almacenamiento organizado de datos de personas, patrullas e incidentes para garantizar trazabilidad y disponibilidad en consultas posteriores.
+5\ Generación de reportes: Elaboración de informes y estadísticas sobre cantidad de incidentes, tiempo de respuesta y uso de recursos, útiles para la planificación estratégica.
+
+Limitaciones del Alcance
+
+* El sistema se limita a la **gestión de datos internos** (registro, consulta y seguimiento), sin integrar aún geolocalización en tiempo real ni mapas digitales.
+* No se implementa por el momento la grabación o procesamiento de llamadas de audio.
+* La asignación de móviles sigue dependiendo del criterio del operador, sin algoritmos de optimización automática.
+* Se considera una **fase inicial académica**, con posibilidad de escalar en futuras versiones hacia módulos más avanzados (geolocalización, autocompletado de datos, reportes automatizados, etc.).
+
+El sistema está diseñado como una herramienta de apoyo para los operadores del 911, optimizando los procesos de registro y asignación. Será utilizado principalmente por personal administrativo y operadores de emergencias, y podrá ser consultado por superiores para la generación de reportes y evaluaciones de desempeño.
+
 
 # CAPÍTULO II: MARCO CONCEPTUAL O REFERENCIAL 
 En las últimas décadas, el ámbito de la seguridad pública ha experimentado profundas transformaciones impulsadas por el desarrollo de nuevas tecnologías. Las Tecnologías de la Información y la Comunicación (TICs) han revolucionado la forma en que los organismos de seguridad gestionan incidentes, denuncias y emergencias, permitiendo una respuesta más rápida, organizada y efectiva.
@@ -73,7 +91,6 @@ En las últimas décadas, el ámbito de la seguridad pública ha experimentado p
 Un ejemplo claro de estas innovaciones es la introducción de sistemas para operar y gestionar emergencias, que permiten la recepción, registro y seguimiento de los llamados, así como la asignación de recursos como vehículos policiales. Sin embargo, el sistema actual presenta serias limitaciones: la persona que atiende el llamado no es la misma que distribuye al personal policial, generando así una división en el proceso. Como resultado, en revisiones posteriores, los únicos registros que se suelen encontrar son las grabaciones de audio, que a menudo son poco útiles y complican la coordinación del oficial con la alerta, ya que no está al tanto de lo que está sucediendo en ese momento.
 
 Frente a esta situación, se hace evidente la necesidad de una actualización tecnológica que permita unificar los procesos, generar registros claros y trazables, y optimizar la coordinación interna. La modernización de estos sistemas no solo mejorará la eficiencia operativa de las fuerzas de seguridad, sino que también garantizará una atención más ágil y precisa hacia la ciudadanía. Además, reducirá la dependencia de grabaciones extensas, favoreciendo la creación de informes estructurados y datos organizados que sirvan para la toma de decisiones y la planificación estratégica.
-
 
 
 # CAPÍTULO IV: DESARROLLO DEL TEMA / PRESENTACIÓN DE RESULTADOS 
