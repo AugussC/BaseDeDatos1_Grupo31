@@ -105,3 +105,42 @@ La ejecución sería:
 DECLARE @Resultado DECIMAL(10,2);
 EXEC ObtenerSueldo 101, @Resultado OUTPUT;
 PRINT @Resultado;
+
+Manejo de Errores y Control de Transacciones
+
+Dentro de un procedimiento almacenado, es posible manejar errores y fallos mediante bloques TRY...CATCH, garantizando la integridad de los datos mediante transacciones controladas.
+Esto asegura que, si ocurre un error en alguna de las operaciones, se revierten los cambios, manteniendo la base de datos en un estado consistente.
+BEGIN TRY
+    BEGIN TRANSACTION;
+
+    UPDATE Cuentas SET saldo = saldo - 100 WHERE id = 1;
+    UPDATE Cuentas SET saldo = saldo + 100 WHERE id = 2;
+
+    COMMIT TRANSACTION;
+END TRY
+BEGIN CATCH
+    ROLLBACK TRANSACTION;
+    PRINT 'Error en la transferencia.';
+END CATCH;
+
+Llamadas y Ejecución de Procedimientos
+
+Los procedimientos almacenados se pueden ejecutar de distintas formas, dependiendo del sistema gestor:
+
+EXEC nombre_procedimiento @parametro = valor;
+-- o
+CALL nombre_procedimiento(valor);
+
+También pueden ser invocados desde otras aplicaciones o desde dentro de otro procedimiento (anidamiento), lo que permite construir estructuras modulares y jerárquicas.
+
+Procedimientos Almacenados y Concurrencia
+
+Al ejecutarse en el servidor, los procedimientos almacenados aprovechan el control de concurrencia del motor de base de datos. Esto evita conflictos entre usuarios simultáneos que intentan acceder o modificar los mismos datos.
+
+Mediante mecanismos de bloqueo (locking) y aislamiento (isolation levels), se garantiza que cada procedimiento mantenga la integridad de las operaciones que realiza.
+
+Conclusión
+
+Los procedimientos almacenados son un pilar fundamental en el diseño de sistemas de bases de datos robustos.
+Permiten modularizar, asegurar y optimizar el acceso a los datos, reduciendo errores y mejorando la eficiencia del sistema.
+Además, facilitan la consistencia lógica de las operaciones y la coordinación entre transacciones, integrándose estrechamente con otros mecanismos del gestor, como los disparadores, vistas y funciones definidas por el usuario.
