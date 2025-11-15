@@ -141,3 +141,14 @@ Para mantener la seguridad y estabilidad del sistema, se emplean mecanismos como
 - Protocolos de recuperación total ante fallas.  
 - Protocolos de compromiso global para asegurar que todos los nodos confirmen o aborten una transacción en conjunto.
 
+### CONCLUSION
+El estudio del manejo de transacciones y transacciones anidadas permitió comprender cómo los sistemas de bases de datos garantizan la integridad y coherencia de la información incluso ante fallas o múltiples operaciones concurrentes. A través del análisis de las instrucciones básicas de control, como BEGIN TRANSACTION, COMMIT y ROLLBACK, se evidenció la importancia de asegurar que todas las operaciones de una transacción se ejecuten de manera completa o no se apliquen, respetando las propiedades ACID que sustentan la confiabilidad del sistema.
+
+Asimismo, se diferenciaron las transacciones planas de las anidadas, destacando cómo estas últimas permiten estructurar operaciones complejas mediante subtransacciones que mejoran la concurrencia y facilitan la recuperación parcial. También se exploraron los distintos tipos de transacciones según el orden de lectura y escritura, junto con los modelos de ejecución serializada y calendarizada, fundamentales para mantener el aislamiento y el rendimiento.
+
+Finalmente, se analizaron los mecanismos de control y confiabilidad que aseguran la correcta ejecución tanto en entornos centralizados como distribuidos. En conjunto, todos estos conceptos permiten diseñar sistemas robustos, seguros y eficientes, capaces de manejar operaciones críticas sin comprometer la integridad de los datos.
+
+### BIBLIOGRAFIA
+1. Ambler, S. W. (s.f.). Transaction control. AgileData.org. https://agiledata.org/essays/transactioncontrol.html
+2. Microsoft. (2025). BEGIN TRANSACTION (Transact-SQL). Microsoft Learn. https://learn.microsoft.com/es-es/sql/t-sql/language-elements/begin-transaction-transact-sql
+3. Jeremiah, O. (2023). Transacciones SQL: Qué son y cómo usarlas. DataCamp. https://datacamp.com/es/tutorial/sql-transactions

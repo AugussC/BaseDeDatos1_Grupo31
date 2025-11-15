@@ -92,6 +92,37 @@ Un ejemplo claro de estas innovaciones es la introducción de sistemas para oper
 
 Frente a esta situación, se hace evidente la necesidad de una actualización tecnológica que permita unificar los procesos, generar registros claros y trazables, y optimizar la coordinación interna. La modernización de estos sistemas no solo mejorará la eficiencia operativa de las fuerzas de seguridad, sino que también garantizará una atención más ágil y precisa hacia la ciudadanía. Además, reducirá la dependencia de grabaciones extensas, favoreciendo la creación de informes estructurados y datos organizados que sirvan para la toma de decisiones y la planificación estratégica.
 
+# CAPÍTULO III: METODOLOGÍA SEGUIDA 
+El desarrollo del proyecto se llevo a cabo en distintas partes cada una con un proposito para la correcta implementacion del sistema
+
+1. Fase de Diseño Conceptual: En esta etapa, con ayuda de un operador 911 nos ayudo a comprender mejor como funcionaba el sistema actual dandonos informacion de los flujos claves como por ejemplo: el ingreso de una llamada, la categorizacion de incidentes, despacho de las unidades y el cierre de la alerta. Apartir de ellas pensamos en como mejorarla y definimos las entidades y relaciones necesarias.
+Esta fase nos permitio aprender y comprender como funciona el sistema desde que suena el telefono hasta que la patrulla finaliza con su intervencion
+
+2. Fase de Diseño Lógico y Creación de Esquema de Base de Datos:
+En esta etapa transformamos el diseño conceptual en un modelo logico que nos permitio entender mucho mas las relaciones y como seria la estructura de nuestra base de datos. En esta etapa se crearon tablas, se definieron claves primarias y foraneas, y se pusieron restricciones como CHECKS, UNIQUES y CONSTRAINT para evitar inconsistencias.
+
+3. Fase de Implementación de Funcionalidades de Seguridad
+Dado que se trata de un sistema crítico, se trabajó especialmente en roles, accesos y permisos.  
+
+Roles creados:
+* Operador
+* Comisario
+* Jefe de operadores
+
+Cada uno con su respectivo permiso:
+* El operador solo puede registrar llamadas y crear incidentes.
+* El comisario tiene la funcion de cargar policias y patrullas a cargo de esa comisaria, tambien tiene la funcionalidad de asignar atraves de una planilla a los policias que van a patrullar.
+* El jefe de operadores puede agregar usuarios, ver reportes y crear copias de seguridad o cargar copias de seguridad.
+
+4. Fase de Pruebas y Validación: Se realizaron pruebas para verificar la integridad de los datos, la funcionalidad del sistema y la validación de las reglas de negocio, como la asignacion y el ruteo de una patrulla a una alerta designada.
+
+**Herramientas (Instrumentos y Procedimientos)**
+El trabajo se realizó utilizando las siguientes herramientas y procedimientos:
+
+1. **GITHUB**: Se utilizaron para versionar los scripts SQL, cambios en la BD y documentación del sistema  
+2. **SQL Server Management Studio (SSMS)**: se utilizo para crear tablas, monitoreo y pruebas del sistema, el desarrollo y escritura de las consultas SQL.  
+3. **ERDPlus** Mediante el ERDplus elaboramos los diagramas tanto conceptual como logico a partir de las especificaciones de los requerimientos que fueron surgiendo al plantear el problema en cuestión.   
+
 
 # CAPÍTULO IV: DESARROLLO DEL TEMA / PRESENTACIÓN DE RESULTADOS 
 Lo primero que decidimos implementar fue el diagrama en el modelo relacional a partir de la investigaciones que hicimos sobre como funcionaba el sistema actual y las modificaciones que proponiamos. Este fue el resultado del mismo:
@@ -101,3 +132,62 @@ Lo primero que decidimos implementar fue el diagrama en el modelo relacional a p
 DICCIONARIO DE DATOS\
 Este diccionario de datos documenta las tablas, campos y relaciones de la base de datos del proyecto. Su objetivo es facilitar la comprensión, el desarrollo y el mantenimiento del sistema, asegurando la correcta gestión e integridad de la información.
 Accesso al documento [PDF](DER/DiccionarioDeDatos.pdf) del diccionario de datos.
+
+
+Desarrollo del Sistema
+
+El Sistema de Gestión del Operador 911 fue desarrollado utilizando el entorno de SQL Server, con el objetivo de ofrecer una solución eficiente, segura y ordenada para la administración de llamadas de emergencia, incidentes policiales y la gestión operativa de móviles y personal. A continuación, se describen las principales etapas del desarrollo del sistema.
+
+Modelado de la Base de Datos:
+
+Se llevó a cabo un diagrama entidad-relación para definir las entidades clave del sistema, tales como: **Llamada**, **Canal**, **Reporte**, **Usuario**, **Alerta**, **Comisaria**, **Ubicacion**, **Policia**, **Patrulla**, **Planilla**.En el diagrama se establecieron las relaciones necesarias para reflejar fielmente el flujo operativo y se implementaron las claves primarias (PK) y foráneas (FK) necesarias para mantener la integridad referencial en los datos.
+
+Creación de las Tablas en SQL Server:
+
+Cada entidad se tradujo a una tabla en SQL Server, incorporando las restricciones necesarias como claves primarias y foráneas. Se establecieron restricciones de validación de campos, por ejemplo, el DNI único para los policias y correo para los usuarios. Además, se implementaron restricciones para validar las asignaciones en la planilla, garantizando que no haya solapamientos de horario para el mismo policia.También se implementaron CHECK constraints para controlar valores permitidos, especialmente en estados y tipos de emergencia.
+
+[Script de la Estructura de la Base de Datos](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/Operador911BDD.sql)
+Aclaracion: La estructura de la Base de Datos nos la genero el SQL server por el simple hecho de que el mismo proyecto estabamos realizandolo para taller entonces ya teniamos la base de datos armada.
+
+Carga de Datos de Prueba:
+
+Durante la fase de implementación, se centró exclusivamente en las operaciones de inserción de datos enfocadas en poblar la base con datos representativos del sistema de emergencia.. Se registraron datos para Policias, Patrullas, Planilla, Reporte y Alerta, Llamados y demas tablas de la base de datos. No se desarrollaron operaciones de actualización o eliminación, ya que el objetivo principal era validar la estructura, relaciones y comportamiento de los registros en la base.
+
+[Script del Lote de Datos](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/scriptDatosOperador911.sql) 
+
+PRESENTACIÓN DE RESULTADOS:
+
+Los principales resultados del desarrollo fueron los siguientes:
+
+![imagen2](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121011.png)
+
+![imagen3](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121020.png)
+
+![imagen4](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121031.png)
+
+![imagen5](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121039.png)
+
+![imagen6](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121048.png)
+
+![imagen7](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121103.png)
+
+![imagen8](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121111.png)
+
+![imagen9](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121123.png)
+
+# CAPÍTULO V: CONCLUSIONES  
+
+El estudio del manejo de transacciones y transacciones anidadas [Tema_3](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%201%20Manejo%20de%20Transacciones/Manejo%20de%20Transacciones%20y%20Transaccion.md) permitió comprender cómo los sistemas de bases de datos garantizan la integridad y coherencia de la información incluso ante fallas o múltiples operaciones concurrentes. A través del análisis de las instrucciones básicas de control, como BEGIN TRANSACTION, COMMIT y ROLLBACK, se evidenció la importancia de asegurar que todas las operaciones de una transacción se ejecuten de manera completa o no se apliquen, respetando las propiedades ACID que sustentan la confiabilidad del sistema.
+
+Asimismo, se diferenciaron las transacciones planas de las anidadas, destacando cómo estas últimas permiten estructurar operaciones complejas mediante subtransacciones que mejoran la concurrencia y facilitan la recuperación parcial. También se exploraron los distintos tipos de transacciones según el orden de lectura y escritura, junto con los modelos de ejecución serializada y calendarizada, fundamentales para mantener el aislamiento y el rendimiento.
+
+Finalmente, se analizaron los mecanismos de control y confiabilidad que aseguran la correcta ejecución tanto en entornos centralizados como distribuidos. En conjunto, todos estos conceptos permiten diseñar sistemas robustos, seguros y eficientes, capaces de manejar operaciones críticas sin comprometer la integridad de los datos.
+
+
+
+
+# CAPÍTULO VI: BIBLIOGRAFÍA. 
+
+1. Ambler, S. W. (s.f.). Transaction control. AgileData.org. https://agiledata.org/essays/transactioncontrol.html
+2. Microsoft. (2025). BEGIN TRANSACTION (Transact-SQL). Microsoft Learn. https://learn.microsoft.com/es-es/sql/t-sql/language-elements/begin-transaction-transact-sql
+3. Jeremiah, O. (2023). Transacciones SQL: Qué son y cómo usarlas. DataCamp. https://datacamp.com/es/tutorial/sql-transactions
