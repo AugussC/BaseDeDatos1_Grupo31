@@ -146,38 +146,38 @@ Creación de las Tablas en SQL Server:
 
 Cada entidad se tradujo a una tabla en SQL Server, incorporando las restricciones necesarias como claves primarias y foráneas. Se establecieron restricciones de validación de campos, por ejemplo, el DNI único para los policias y correo para los usuarios. Además, se implementaron restricciones para validar las asignaciones en la planilla, garantizando que no haya solapamientos de horario para el mismo policia.También se implementaron CHECK constraints para controlar valores permitidos, especialmente en estados y tipos de emergencia.
 
-[Script de la Estructura de la Base de Datos]()
+[Script de la Estructura de la Base de Datos](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/Operador911BDD.sql)
 Aclaracion: La estructura de la Base de Datos nos la genero el SQL server por el simple hecho de que el mismo proyecto estabamos realizandolo para taller entonces ya teniamos la base de datos armada.
 
 Carga de Datos de Prueba:
 
 Durante la fase de implementación, se centró exclusivamente en las operaciones de inserción de datos enfocadas en poblar la base con datos representativos del sistema de emergencia.. Se registraron datos para Policias, Patrullas, Planilla, Reporte y Alerta, Llamados y demas tablas de la base de datos. No se desarrollaron operaciones de actualización o eliminación, ya que el objetivo principal era validar la estructura, relaciones y comportamiento de los registros en la base.
 
-[Script del Lote de Datos]() 
+[Script del Lote de Datos](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/scriptDatosOperador911.sql) 
 
 PRESENTACIÓN DE RESULTADOS:
 
 Los principales resultados del desarrollo fueron los siguientes:
 
-![imagen2]()
+![imagen2](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121011.png)
 
-![imagen3]()
+![imagen3](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121020.png)
 
-![imagen4]()
+![imagen4](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121031.png)
 
-![imagen5]()
+![imagen5](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121039.png)
 
-![imagen6]()
+![imagen6](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121048.png)
 
-![imagen7]()
+![imagen7](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121103.png)
 
-![imagen8]()
+![imagen8](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121111.png)
 
-![imagen9]()
+![imagen9](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121123.png)
 
 # CAPÍTULO V: CONCLUSIONES  
 
-El estudio del manejo de transacciones y transacciones anidadas [Tema_2]() permitió comprender cómo los sistemas de bases de datos garantizan la integridad y coherencia de la información incluso ante fallas o múltiples operaciones concurrentes. A través del análisis de las instrucciones básicas de control, como BEGIN TRANSACTION, COMMIT y ROLLBACK, se evidenció la importancia de asegurar que todas las operaciones de una transacción se ejecuten de manera completa o no se apliquen, respetando las propiedades ACID que sustentan la confiabilidad del sistema.
+El estudio del manejo de transacciones y transacciones anidadas [Tema_3](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%201%20Manejo%20de%20Transacciones/Manejo%20de%20Transacciones%20y%20Transaccion.md) permitió comprender cómo los sistemas de bases de datos garantizan la integridad y coherencia de la información incluso ante fallas o múltiples operaciones concurrentes. A través del análisis de las instrucciones básicas de control, como BEGIN TRANSACTION, COMMIT y ROLLBACK, se evidenció la importancia de asegurar que todas las operaciones de una transacción se ejecuten de manera completa o no se apliquen, respetando las propiedades ACID que sustentan la confiabilidad del sistema.
 
 Asimismo, se diferenciaron las transacciones planas de las anidadas, destacando cómo estas últimas permiten estructurar operaciones complejas mediante subtransacciones que mejoran la concurrencia y facilitan la recuperación parcial. También se exploraron los distintos tipos de transacciones según el orden de lectura y escritura, junto con los modelos de ejecución serializada y calendarizada, fundamentales para mantener el aislamiento y el rendimiento.
 
