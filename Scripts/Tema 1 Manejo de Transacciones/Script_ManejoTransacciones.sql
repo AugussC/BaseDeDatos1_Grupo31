@@ -25,6 +25,78 @@ El proceso se realiza usando dos procedimientos:
   2. sp_RegistrarUbicacionPatrulla → transacción anidada.
 */
 
+-------------------------------------------------------------- Tipos de Transacciones ---------------------------------------------------------------
+
+---------------------------------------------------------------
+-- Transacciones de Confirmacion Automatica
+---------------------------------------------------------------
+-- Cada instrucción se ejecuta como una transacción independiente
+-- SQL Server realiza COMMIT automáticamente.
+INSERT INTO Patrulla (codigo_patrulla, tipo, estado, id_comisaria, activo)
+VALUES ('A-406', 'Auto', 'En Base', 3, 1);
+PRINT 'Transacción automática ejecutada correctamente.';
+GO
+
+---------------------------------------------------------------
+-- Transacción Implícita
+---------------------------------------------------------------
+SET IMPLICIT_TRANSACTIONS ON;
+
+-- SQL Server abre una transacción automáticamente
+UPDATE Patrulla
+SET estado = 'En Base' 
+WHERE id_patrulla = 7;
+
+-- Confirmamos manualmente
+COMMIT TRAN;
+PRINT 'Transacción implícita confirmada.';
+
+-- Se abre otra transacción implícita automáticamente
+UPDATE Alerta
+SET importancia = 'Baja'
+WHERE id_alerta = 52;
+
+-- Revertimos los cambios
+ROLLBACK TRAN;
+PRINT 'Transacción implícita revertida.';
+
+SET IMPLICIT_TRANSACTIONS OFF;
+GO
+
+---------------------------------------------------------------
+-- EJEMPLO: Transacción de Ámbito de Lote (Batch-Scoped - MARS)
+---------------------------------------------------------------
+-- Con MARS activado, las transacciones deben finalizar
+-- dentro del lote donde fueron iniciadas.
+
+BEGIN TRAN;
+
+INSERT INTO Policia(nombre, apellido, DNI, id_comisaria, activo, genero)
+VALUES ('Luciana', 'Ferreyra', 40123456, 1, 1, 'F');
+
+INSERT INTO Policia(nombre, apellido, DNI, id_comisaria, activo, genero)
+VALUES ('Matías', 'Pereyra', 38987654, 1, 1, 'M');
+
+INSERT INTO Policia(nombre, apellido, DNI, id_comisaria, activo, genero)
+VALUES ('Diego', 'Benítez', 27845231, 1, 1, 'M');
+
+INSERT INTO Policia(nombre, apellido, DNI, id_comisaria, activo, genero)
+VALUES ('Carolina', 'Mansilla', 41984572, 1, 1, 'F');
+
+-- Si el lote termina sin COMMIT, SQL Server la revierte automáticamente
+COMMIT TRAN;
+
+PRINT 'Transacción batch-scoped completada.';
+GO
+
+-------------------------------------------------------------- Caso Practico ---------------------------------------------------------------
+
+/* 
+---------------------------------------------------------------
+  TEMA: MANEJO DE TRANSACCIONES Y TRANSACCIONES ANIDADAS
+---------------------------------------------------------------
+*/
+
 DROP PROCEDURE IF EXISTS sp_AsignarPatrullaAAlerta;
 GO
 DROP PROCEDURE IF EXISTS sp_RegistrarUbicacionPatrulla;
@@ -114,6 +186,42 @@ BEGIN
 END;
 GO
 
+---------------------------------------------------------
+-- TRANSACCIÓN CON ERROR INTENCIONAL PARA PROBAR ROLLBACK
+---------------------------------------------------------
+BEGIN TRY
+    BEGIN TRAN;
+
+    -----------------------------------------------------
+    -- 1) INSERTAR ALERTA (NO DEBE QUEDAR)
+    -----------------------------------------------------
+    INSERT INTO Alerta (estado, importancia, tipo_incidencia, direccion, fecha_cierre, id_usuario, id_patrulla, id_canal)
+    VALUES ('En Espera', 'Invalida', 'Incendio', 'Belgrano 450', NULL, 1, NULL, 2);
+    -- La importancia de la Alerta tiene un check que no me permite poner otra cosa que no sea Alta, Media o Baja 
+    DECLARE @idAlerta2 INT = SCOPE_IDENTITY();
+
+    -----------------------------------------------------
+    -- 2) INSERTAR LLAMADA (NO DEBE HACERSE)
+    -----------------------------------------------------
+    INSERT INTO Llamada (fecha_creacion, nombre, telefono, id_alerta)
+    VALUES (GETDATE(), 'Carlos Perez', '3519998877', @idAlerta2);
+
+
+    -----------------------------------------------------
+    -- 3) UPDATE REPORTE (NO DEBE HACERSE)
+    -----------------------------------------------------
+    UPDATE Reporte
+    SET descripcion = 'NO debería verse este texto.'
+    WHERE id_reporte = 1;
+
+
+    COMMIT TRAN;
+END TRY
+BEGIN CATCH
+    PRINT 'SE DETECTÓ UN ERROR. Se ejecuta ROLLBACK.';
+    PRINT ERROR_MESSAGE();
+    ROLLBACK TRAN;
+END CATCH;
 
 
 /* ================================================================
@@ -132,10 +240,10 @@ GO
 -- 2️⃣ Crear llamadas asociadas
 INSERT INTO Llamada (fecha_creacion, nombre, telefono, id_alerta)
 VALUES 
-(GETDATE(), 'Carlos Pérez', '3516547890', 48),
-(GETDATE(), 'Ana López', '3517982345', 49),
-(GETDATE(), 'Jorge Díaz', '3519234567', 50),
-(GETDATE(), 'Lucía Torres', '3517776655', 51);
+(GETDATE(), 'Carlos Pérez', '3516547890', 52),
+(GETDATE(), 'Ana López', '3517982345', 53),
+(GETDATE(), 'Jorge Díaz', '3519234567', 54),
+(GETDATE(), 'Lucía Torres', '3517776655', 55);
 GO
 
 -- 3️⃣ Patrulla ocupada (para prueba de error)
