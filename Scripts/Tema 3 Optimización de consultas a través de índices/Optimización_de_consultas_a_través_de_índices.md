@@ -54,7 +54,7 @@ ORDER BY fecha_creacion;
 
 Es importante destacar por qué las pruebas se ejecutaron de forma secuencial y no "todas juntas".
 
-1.  La estructura de una tabla solo puede estar en un estado a la vez. Un índice agrupado (Tarea 3) y una tabla sin él (Tarea 2) son estados **mutuamente excluyentes**.
+1.  La estructura de una tabla solo puede estar en un estado a la vez. Un índice agrupado (Tarea 2) y una tabla sin él (Tarea 1) son estados **mutuamente excluyentes**.
 2.  El "Tiempo Transcurrido" (ej: 873 ms vs 887 ms) puede ser engañoso. La primera consulta (el `Table Scan`) carga el millón de registros del disco a la **memoria RAM (caché)**. Las pruebas siguientes (los `Index Seek`) se benefician de esta caché, pareciendo artificialmente rápidas.
 
 Por esta razón, la métrica más fiable para medir el consumo y el trabajo real del motor no es el tiempo, sino las Lecturas Lógicas (el número de páginas de 8KB que el motor tuvo que leer, ya sea de disco o de caché).
@@ -63,9 +63,9 @@ Por esta razón, la métrica más fiable para medir el consumo y el trabajo real
 
 | Escenario (Tarea) | Plan de Ejecución | Lecturas Lógicas (Trabajo Real) | Tiempo Transcurrido (En Caché) |
 | :--- | :--- | :--- | :--- |
-| **1. Baseline (Tarea 2)** | `Table Scan` + `Sort` | **10,330** | 873 ms |
-| **2. Índice Agrupado (Tarea 3)** | `Clustered Index Seek` | **1,680** | 887 ms |
-| **3. Índice Cubriente (Tarea 5)** | `Index Seek (NonClustered)` | **1,157** | 872 ms |
+| **1. Baseline (Tarea 1)** | `Table Scan` + `Sort` | **10,330** | 873 ms |
+| **2. Índice Agrupado (Tarea 2)** | `Clustered Index Seek` | **1,680** | 887 ms |
+| **3. Índice Cubriente (Tarea 3)** | `Index Seek (NonClustered)` | **1,157** | 872 ms |
 
 #### 4.3. Evaluación del Rendimiento
 
