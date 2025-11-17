@@ -78,8 +78,9 @@ La estructura de una transacción depende del modelo utilizado, que puede ser **
     Existen restricciones obvias en una transacción anidada, como que debe comenzar después que su transacción padre y finalizar antes que ella.  
     Si la transacción padre de una o varias subtransacciones aborta, las subtransacciones también serán abortadas.
 
-    Las transacciones anidadas mejoran la concurrencia y permiten una **recuperación parcial ante fallas**, reduciendo el costo de recuperación.
-
+    Las transacciones anidadas mejoran la concurrencia y permiten una **recuperación parcial ante fallas**, reduciendo el costo de recuperación. 
+    
+    Cabe aclarar que SQL Server no soporta completamente las transacciones anidadas. Solo la transacción más externa controla el `COMMIT` o `ROLLBACK`. Si se produce un `ROLLBACK` en una transacción interna, SQL Server revierte toda la transacción hasta el primer `BEGIN TRANSACTION`.
 
 ### Tipos de Transacciones según Lectura y Escritura
 
@@ -98,6 +99,13 @@ Según este criterio, las transacciones se clasifican en:
 
 - **Modelo de Acción Restringida:**  
   Aplica una restricción aún mayor, exigiendo que cada par `<READ, WRITE>` se ejecute de forma atómica, garantizando así la integridad y consistencia en cada operación.
+
+### Modos de transacción en SQL Server
+
+- **Transacciones de confirmación automática**: Cada instrucción individual es una transacción.
+- **Transacciones explícitas**: La transacción se inicia explícitamente con `BEGIN TRANSACTION` y se termina explícitamente con una instrucción `COMMIT` o `ROLLBACK`.
+- **Transacciones implícitas**: Una nueva transacción se inicia implícitamente al completarse la anterior, pero se completa explícitamente con una instrucción `COMMIT` o `ROLLBACK`.
+- **Transacciones de ámbito de lote**: Una transacción de ámbito de lote significa que cuando MARS(una misma conexión pueda ejecutar varias consultas al mismo tiempo) está activado, cualquier transacción que abras debe cerrarse dentro del mismo bloque de instrucciones donde comenzó. 
 
 
 ### Ejecución de Transacciones Centralizadas y Distribuidas
@@ -141,6 +149,29 @@ Para mantener la seguridad y estabilidad del sistema, se emplean mecanismos como
 - Protocolos de recuperación total ante fallas.  
 - Protocolos de compromiso global para asegurar que todos los nodos confirmen o aborten una transacción en conjunto.
 
+## Ventajas de las transacciones
+
+1. **Atomicidad**
+   - La atomicidad asegura que una serie de operaciones dentro de una transacción se ejecuten completamente o no se ejecuten en absoluto.
+
+2. **Consistencia**
+   - Las transacciones mantienen la consistencia de los datos, cumpliendo con todas las reglas y restricciones definidas en la base de datos.
+
+3. **Aislamiento**
+   - Permite que varias transacciones se ejecuten simultáneamente sin interferir entre sí.
+
+4. **Durabilidad**
+   - Una vez que una transacción se confirma, los cambios son permanentes, incluso en caso de un fallo posterior del sistema.
+
+5. **Manejo de errores y recuperación**
+   - Proporciona un mecanismo controlado para manejar errores. Si ocurre un error, todos los cambios realizados hasta ese momento se revierten automáticamente.
+
+6. **Mejora en la concurrencia y eficiencia**
+   - Facilita el manejo eficiente de accesos concurrentes, minimizando conflictos y mejorando el rendimiento.
+
+7. **Seguridad y control en los cambios de datos**
+   - Limita el acceso a los datos solo a las operaciones que se confirman (`commit`), añadiendo una capa de seguridad crucial en sistemas con datos sensibles.
+
 ### CONCLUSION
 El estudio del manejo de transacciones y transacciones anidadas permitió comprender cómo los sistemas de bases de datos garantizan la integridad y coherencia de la información incluso ante fallas o múltiples operaciones concurrentes. A través del análisis de las instrucciones básicas de control, como BEGIN TRANSACTION, COMMIT y ROLLBACK, se evidenció la importancia de asegurar que todas las operaciones de una transacción se ejecuten de manera completa o no se apliquen, respetando las propiedades ACID que sustentan la confiabilidad del sistema.
 
@@ -152,3 +183,4 @@ Finalmente, se analizaron los mecanismos de control y confiabilidad que aseguran
 1. Ambler, S. W. (s.f.). Transaction control. AgileData.org. https://agiledata.org/essays/transactioncontrol.html
 2. Microsoft. (2025). BEGIN TRANSACTION (Transact-SQL). Microsoft Learn. https://learn.microsoft.com/es-es/sql/t-sql/language-elements/begin-transaction-transact-sql
 3. Jeremiah, O. (2023). Transacciones SQL: Qué son y cómo usarlas. DataCamp. https://datacamp.com/es/tutorial/sql-transactions
+4. Erkec, E. (2021, febrero 10). Transacciones en SQL Server para principiantes. SQLShack. https://www.sqlshack.com/transacciones-in-sql-server-for-beginners/
