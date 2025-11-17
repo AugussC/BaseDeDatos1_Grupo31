@@ -70,13 +70,15 @@ Por esta razón, la métrica más fiable para medir el consumo y el trabajo real
 #### 4.3. Evaluación del Rendimiento
 
 * **Escenario 1 (Baseline):** El plan de ejecución mostró un `Table Scan` (costo 76%). El motor se vio obligado a leer la tabla completa (**10,330** páginas) y luego crear una "Worktable" para ordenar los resultados, un proceso altamente ineficiente.
-![Table Scan](Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Imagen1_TableSacan.png)
+![imagen10](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Imagen1_TableSacan.png)
 
 * **Escenario 2 (Índice Agrupado):** El plan cambió a un `Clustered Index Seek`. Al estar los datos físicamente ordenados por fecha, el motor solo tuvo que leer las páginas que contenían el rango de 2022. Esto redujo las lecturas en un 84%, de 10,330 a 1,680.
-![Clustered Seek](Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Imagen2_ClusteredIndexSeek.png)  
+
+![imagen13](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Imagen2_ClusteredIndexSeek.png)    
 
 * **Escenario 3 (Índice Cubriente):** El plan mostró un `Index Seek (NonClustered)` limpio. Este fue el escenario más eficiente, reduciendo las lecturas a solo **1,157** (una reducción total del 89%). El motor nunca tocó la tabla base; leyó solo la estructura del índice, que era más "delgada" y compacta que el índice agrupado (que es la tabla entera).
-![Index Seek](Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Imagen3_IndexSeek.png)
+
+![imagen12](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Imagen2_ClusteredIndexSeek.png)
 
 ---
 
