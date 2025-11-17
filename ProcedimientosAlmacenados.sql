@@ -8,7 +8,7 @@
 */
 
 
-USE [Operador911BD];  -- 1) Selecciona la base de datos donde se crear· el procedimiento
+USE [Operador911BD];  -- 1) Selecciona la base de datos donde se crear√° el procedimiento
 GO
 
 -- 2) Si ya existe el procedimiento con este nombre, lo eliminamos para poder recrearlo sin error.
@@ -16,19 +16,19 @@ IF OBJECT_ID('dbo.sp_ObtenerPatrullasActivas', 'P') IS NOT NULL
     DROP PROCEDURE dbo.sp_ObtenerPatrullasActivas;
 GO
 
--- 3) CreaciÛn del procedimiento almacenado
+-- 3) Creaci√≥n del procedimiento almacenado
 --    Nombre: dbo.sp_ObtenerPatrullasActivas
 --    Objetivo: devolver todas las patrullas cuyo campo "activo" = 1
 CREATE PROCEDURE dbo.sp_ObtenerPatrullasActivas
 AS
 BEGIN
-    -- 4) Inicio del bloque de cÛdigo del procedimiento
+    -- 4) Inicio del bloque de c√≥digo del procedimiento
 
     SET NOCOUNT ON; 
     -- 5) Evita mensajes adicionales de "n rows affected" que pueden interferir con aplicaciones clientes.
 
     -- 6) Consulta principal: selecciona columnas relevantes de la tabla Patrulla
-    --    (se listan columnas especÌficas en vez de SELECT * para buenas pr·cticas)
+    --    (se listan columnas espec√≠ficas en vez de SELECT * para buenas pr√°cticas)
     SELECT 
         id_patrulla,
         codigo_patrulla,
@@ -58,7 +58,7 @@ EXEC dbo.sp_ObtenerPatrullasActivas;
 
 -- Estos dos procedimientos ya estaban creados previamente, asumiendo su uso para el proyecto de taller 2 --
 ---------------------------------------------------------------
--- PROCEDIMIENTO ANIDADO: REGISTRAR UBICACI”N DE PATRULLA
+-- PROCEDIMIENTO ANIDADO: REGISTRAR UBICACI√ìN DE PATRULLA
 ---------------------------------------------------------------
 CREATE   PROCEDURE [dbo].[sp_RegistrarUbicacionPatrulla]
     @id_patrulla INT,
@@ -73,10 +73,10 @@ BEGIN
         INSERT INTO Ubicacion (id_patrulla, latitud, longitud, orden)
         VALUES (@id_patrulla, @latitud, @longitud, @orden);
 
-        PRINT 'UbicaciÛn registrada correctamente.';
+        PRINT 'Ubicaci√≥n registrada correctamente.';
     END TRY
     BEGIN CATCH
-        PRINT 'Error al registrar la ubicaciÛn. Se revierte el bloque.';
+        PRINT 'Error al registrar la ubicaci√≥n. Se revierte el bloque.';
         ROLLBACK TRANSACTION SaveUbicacion;
     END CATCH
 END;
@@ -103,15 +103,15 @@ BEGIN
         SELECT @estadoAlerta = estado FROM Alerta WHERE id_alerta = @id_alerta;
 
         IF (@estadoAlerta <> 'En Espera')
-            RAISERROR('La alerta no est· en estado pendiente.', 16, 1);
+            RAISERROR('La alerta no est√° en estado pendiente.', 16, 1);
 
-        -- Verificar si la patrulla est· disponible
+        -- Verificar si la patrulla est√° disponible
         SELECT @patrullaActiva = COUNT(*) 
         FROM Alerta 
         WHERE id_patrulla = @id_patrulla AND estado = 'Asignada';
 
         IF (@patrullaActiva > 0)
-            RAISERROR('La patrulla ya est· asignada a otra alerta.', 16, 1);
+            RAISERROR('La patrulla ya est√° asignada a otra alerta.', 16, 1);
 
         -- Asignar patrulla a alerta
         UPDATE Alerta
@@ -129,10 +129,10 @@ BEGIN
             @orden = @orden;
 
         COMMIT TRAN;
-        PRINT 'TransacciÛn completada con Èxito.';
+        PRINT 'Transacci√≥n completada con √©xito.';
     END TRY
     BEGIN CATCH
-        PRINT 'Error detectado. Se revierte la transacciÛn principal.';
+        PRINT 'Error detectado. Se revierte la transacci√≥n principal.';
         ROLLBACK TRAN;
         PRINT ERROR_MESSAGE();
     END CATCH
@@ -156,7 +156,7 @@ BEGIN
 
         -- Verificar usuario existente
         IF NOT EXISTS (SELECT 1 FROM Usuario WHERE id_usuario = @id_usuario AND activo = 1)
-            RAISERROR('El usuario no existe o est· inactivo.', 16, 1);
+            RAISERROR('El usuario no existe o est√° inactivo.', 16, 1);
 
         -- Verificar canal existente
         IF NOT EXISTS (SELECT 1 FROM Canal WHERE id_canal = @id_canal)
@@ -170,7 +170,7 @@ BEGIN
         COMMIT TRAN;
     END TRY
     BEGIN CATCH
-        PRINT 'Error al crear la alerta. Se revierte la transacciÛn.';
+        PRINT 'Error al crear la alerta. Se revierte la transacci√≥n.';
         ROLLBACK TRAN;
         PRINT ERROR_MESSAGE();
     END CATCH
@@ -194,7 +194,7 @@ BEGIN
             RAISERROR('La alerta no existe.', 16, 1);
 
         IF (@estadoActual = 'Atendida')
-            RAISERROR('La alerta ya est· cerrada.', 16, 1);
+            RAISERROR('La alerta ya est√° cerrada.', 16, 1);
 
         UPDATE Alerta
         SET estado = 'Atendida',
@@ -206,7 +206,7 @@ BEGIN
         COMMIT TRAN;
     END TRY
     BEGIN CATCH
-        PRINT 'Error al cerrar la alerta. Se revierte la transacciÛn.';
+        PRINT 'Error al cerrar la alerta. Se revierte la transacci√≥n.';
         ROLLBACK TRAN;
         PRINT ERROR_MESSAGE();
     END CATCH
@@ -236,7 +236,7 @@ BEGIN
         COMMIT TRAN;
     END TRY
     BEGIN CATCH
-        PRINT 'Error al registrar la llamada. Se revierte la transacciÛn.';
+        PRINT 'Error al registrar la llamada. Se revierte la transacci√≥n.';
         ROLLBACK TRAN;
         PRINT ERROR_MESSAGE();
     END CATCH
@@ -265,7 +265,7 @@ BEGIN
         COMMIT TRAN;
     END TRY
     BEGIN CATCH
-        PRINT 'Error al actualizar el estado de la patrulla. Se revierte la transacciÛn.';
+        PRINT 'Error al actualizar el estado de la patrulla. Se revierte la transacci√≥n.';
         ROLLBACK TRAN;
         PRINT ERROR_MESSAGE();
     END CATCH
@@ -273,7 +273,7 @@ END;
 
 
 ---------------------------------------------------------------
--- PROCEDIMIENTO: GENERAR REPORTE DE INTERVENCI”N
+-- PROCEDIMIENTO: GENERAR REPORTE DE INTERVENCI√ìN
 ---------------------------------------------------------------
 CREATE PROCEDURE [dbo].[sp_GenerarReporteIntervencion]
     @descripcion VARCHAR(2000),
@@ -294,7 +294,7 @@ BEGIN
             AND id_patrulla = @id_patrulla
             AND nro_placa = @nro_placa
         )
-            RAISERROR('La combinaciÛn de planilla, patrulla y policÌa no es v·lida.', 16, 1);
+            RAISERROR('La combinaci√≥n de planilla, patrulla y polic√≠a no es v√°lida.', 16, 1);
 
         -- Validar alerta existente
         IF NOT EXISTS (SELECT 1 FROM Alerta WHERE id_alerta = @id_alerta)
@@ -308,8 +308,75 @@ BEGIN
         COMMIT TRAN;
     END TRY
     BEGIN CATCH
-        PRINT 'Error al registrar el reporte. Se revierte la transacciÛn.';
+        PRINT 'Error al registrar el reporte. Se revierte la transacci√≥n.';
         ROLLBACK TRAN;
         PRINT ERROR_MESSAGE();
     END CATCH
 END;
+
+/*
+     Procedimientos anidados: procedimientos que llaman a otros prpocedimientos
+*/
+
+---------------------------------------------------------------
+-- PROCEDIMIENTO: OBTENER PATRULLAS ACTIVAS (procedimeinto interno)
+---------------------------------------------------------------
+     
+USE Operador911BD;
+GO
+
+IF OBJECT_ID('dbo.sp_ObtenerPatrullasActivas', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.sp_ObtenerPatrullasActivas;
+GO
+
+CREATE PROCEDURE dbo.sp_ObtenerPatrullasActivas
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT 
+        id_patrulla,
+        codigo_patrulla,
+        tipo,
+        estado,
+        id_comisaria,
+        activo
+    FROM dbo.Patrulla
+    WHERE activo = 1;
+END;
+GO
+
+
+---------------------------------------------------------------
+-- PROCEDIMIENTO: GENERAR INFORME DE PATRULLAS ACTIVAS (procedimiento externo)
+---------------------------------------------------------------
+
+USE Operador911BD;
+GO
+
+-- Si existe, lo eliminamos
+IF OBJECT_ID('dbo.sp_InformePatrullasActivas', 'P') IS NOT NULL
+    DROP PROCEDURE dbo.sp_InformePatrullasActivas;
+GO
+
+-- Procedimiento externo: llama al procedimiento interno
+CREATE PROCEDURE dbo.sp_InformePatrullasActivas
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- 1) Muestra un encabezado para dar contexto al informe
+    PRINT '==============================';
+    PRINT ' INFORME DE PATRULLAS ACTIVAS ';
+    PRINT '==============================';
+
+    -- 2) Llamamos al procedimiento almacenado interno
+    --    Esto demuestra la anidaci√≥n de procedimientos almacenados.
+    EXEC dbo.sp_ObtenerPatrullasActivas;
+
+    -- 3) Mensaje final
+    PRINT '------ FIN DEL INFORME ------';
+END;
+GO
+
+
+
