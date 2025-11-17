@@ -1,5 +1,5 @@
-Procedimientos Almacenados
-Conceptos Fundamentales
+# Procedimientos Almacenados
+## Conceptos Fundamentales
 
 Un procedimiento almacenado (stored procedure) es un conjunto de sentencias SQL precompiladas y almacenadas en el servidor de bases de datos. Su propósito es ejecutar tareas específicas —como consultas, actualizaciones o validaciones— de forma controlada y eficiente, evitando la repetición de código y mejorando el rendimiento general del sistema.
 
@@ -7,91 +7,94 @@ En términos simples, un procedimiento almacenado es un bloque de código reutil
 
 Los procedimientos almacenados se utilizan ampliamente para:
 
-Automatizar procesos repetitivos.
+- Automatizar procesos repetitivos.
 
-Aplicar reglas de negocio directamente en la base de datos.
+- Aplicar reglas de negocio directamente en la base de datos.
+ 
+- Controlar la integridad de los datos mediante validaciones centralizadas.
 
-Controlar la integridad de los datos mediante validaciones centralizadas.
+- Reducir el tráfico entre la aplicación y el servidor.
 
-Reducir el tráfico entre la aplicación y el servidor.
-
-Mejorar la seguridad al restringir el acceso directo a las tablas.
+- Mejorar la seguridad al restringir el acceso directo a las tablas.
 
 En su ejecución, el motor de la base de datos procesa el procedimiento una sola vez (compilación inicial) y almacena su plan de ejecución en memoria, lo que agiliza las llamadas posteriores.
-Estructura y Sintaxis Básica
+
+## Estructura y Sintaxis Básica
 
 La estructura general de un procedimiento almacenado varía según el gestor de base de datos (SQL Server, MySQL, Oracle, PostgreSQL, etc.), pero suele seguir el siguiente formato:
-CREATE PROCEDURE nombre_procedimiento
-    @param1 tipo_dato [= valor_predeterminado],
-    @param2 tipo_dato OUTPUT
-AS
-BEGIN
-    -- Bloque de instrucciones SQL
-    DECLARE @variable_local tipo_dato;
-
-    SELECT @variable_local = columna
-    FROM tabla
-    WHERE condicion;
-
-    UPDATE tabla
-    SET campo = @param1
-    WHERE otra_condicion;
-
-    RETURN @@ROWCOUNT; -- Valor opcional de retorno
-END;
-
+  ```sql
+    CREATE PROCEDURE nombre_procedimiento
+        @param1 tipo_dato [= valor_predeterminado],
+        @param2 tipo_dato OUTPUT
+    AS
+    BEGIN
+        -- Bloque de instrucciones SQL
+        DECLARE @variable_local tipo_dato;
+    
+        SELECT @variable_local = columna
+        FROM tabla
+        WHERE condicion;
+    
+        UPDATE tabla
+        SET campo = @param1
+        WHERE otra_condicion;
+    
+        RETURN @@ROWCOUNT; -- Valor opcional de retorno
+    END;
+```
 Elementos Principales:
 
-CREATE PROCEDURE / ALTER PROCEDURE: crea o modifica el procedimiento.
+- **CREATE PROCEDURE / ALTER PROCEDURE:** crea o modifica el procedimiento.
 
-Parámetros: pueden ser de entrada (INPUT), salida (OUTPUT) o ambos.
+- **Parámetros:** pueden ser de entrada (INPUT), salida (OUTPUT) o ambos.
 
-BEGIN…END: delimitan el cuerpo del procedimiento.
+- **BEGIN/END:** delimitan el cuerpo del procedimiento.
 
-RETURN: devuelve un valor numérico opcional que indica el resultado de la ejecución.
+- **RETURN:** devuelve un valor numérico opcional que indica el resultado de la ejecución.
 
-Ventajas del Uso de Procedimientos Almacenados
+## Ventajas del Uso de Procedimientos Almacenados
 
-Eficiencia y rendimiento:
+- Eficiencia y rendimiento:
 Los procedimientos se compilan una sola vez y se almacenan en caché, reduciendo el tiempo de ejecución.
 
-Seguridad:
+- Seguridad:
 Permiten limitar el acceso directo a las tablas, de modo que los usuarios solo puedan interactuar a través de procedimientos controlados.
 
-Mantenibilidad:
+- Mantenibilidad:
 Centralizan la lógica de negocio en el servidor, lo que simplifica la actualización del código sin necesidad de modificar las aplicaciones cliente.
 
-Reducción del tráfico de red:
+- Reducción del tráfico de red:
 En lugar de enviar múltiples comandos SQL desde la aplicación, se invoca un solo procedimiento, minimizando la comunicación entre cliente y servidor.
 
-Reutilización del código:
+- Reutilización del código:
 Los procedimientos pueden ser llamados desde distintas aplicaciones o procesos, fomentando la modularidad.
 
-Tipos de Procedimientos Almacenados
+## Tipos de Procedimientos Almacenados
 
-Procedimientos del Usuario:
+- Procedimientos del Usuario:
 Definidos por el desarrollador para satisfacer necesidades específicas del sistema.
 Ejemplo: registrar ventas, calcular descuentos, generar reportes, etc.
 
-Procedimientos del Sistema:
+- Procedimientos del Sistema:
 Incluidos por defecto en el motor de base de datos. Permiten realizar tareas administrativas, como crear tablas, consultar propiedades o modificar configuraciones internas.
 
-Procedimientos Recursivos:
+- Procedimientos Recursivos:
 Son aquellos que se llaman a sí mismos dentro de su propio cuerpo. Se utilizan para recorrer estructuras jerárquicas como árboles o listas enlazadas.
 
-Procedimientos Temporales:
+- Procedimientos Temporales:
 Solo existen durante la sesión actual del usuario. Son útiles para operaciones puntuales o de prueba.
 Parámetros y Valores de Retorno
 
-Los procedimientos almacenados pueden trabajar con distintos tipos de parámetros:
+### Los procedimientos almacenados pueden trabajar con distintos tipos de parámetros:
 
-Entrada (IN): reciben valores al ser invocados.
+**Entrada (IN):** reciben valores al ser invocados.
 
-Salida (OUT): devuelven valores al finalizar.
+**Salida (OUT):** devuelven valores al finalizar.
 
-Entrada/Salida (INOUT): pueden modificarse dentro del procedimiento.
+**Entrada/Salida (INOUT):** pueden modificarse dentro del procedimiento.
 
-Ejemplo:
+## Ejemplo:
+```sql
 CREATE PROCEDURE ObtenerSueldo
     @EmpleadoID INT,
     @Sueldo DECIMAL(10,2) OUTPUT
@@ -101,15 +104,19 @@ BEGIN
     FROM Empleados
     WHERE id = @EmpleadoID;
 END;
-La ejecución sería:
+```
+### La ejecución sería:
+```sql
 DECLARE @Resultado DECIMAL(10,2);
 EXEC ObtenerSueldo 101, @Resultado OUTPUT;
 PRINT @Resultado;
+```
 
-Manejo de Errores y Control de Transacciones
+### Manejo de Errores y Control de Transacciones
 
 Dentro de un procedimiento almacenado, es posible manejar errores y fallos mediante bloques TRY...CATCH, garantizando la integridad de los datos mediante transacciones controladas.
 Esto asegura que, si ocurre un error en alguna de las operaciones, se revierten los cambios, manteniendo la base de datos en un estado consistente.
+```sql
 BEGIN TRY
     BEGIN TRANSACTION;
 
@@ -122,25 +129,31 @@ BEGIN CATCH
     ROLLBACK TRANSACTION;
     PRINT 'Error en la transferencia.';
 END CATCH;
+```
 
-Llamadas y Ejecución de Procedimientos
+## Llamadas y Ejecución de Procedimientos
 
 Los procedimientos almacenados se pueden ejecutar de distintas formas, dependiendo del sistema gestor:
-
+```sql
 EXEC nombre_procedimiento @parametro = valor;
 -- o
 CALL nombre_procedimiento(valor);
+```
 
 También pueden ser invocados desde otras aplicaciones o desde dentro de otro procedimiento (anidamiento), lo que permite construir estructuras modulares y jerárquicas.
 
-Procedimientos Almacenados y Concurrencia
+## Procedimientos Almacenados y Concurrencia
 
 Al ejecutarse en el servidor, los procedimientos almacenados aprovechan el control de concurrencia del motor de base de datos. Esto evita conflictos entre usuarios simultáneos que intentan acceder o modificar los mismos datos.
 
 Mediante mecanismos de bloqueo (locking) y aislamiento (isolation levels), se garantiza que cada procedimiento mantenga la integridad de las operaciones que realiza.
 
-Conclusión
+## Conclusión
 
 Los procedimientos almacenados son un pilar fundamental en el diseño de sistemas de bases de datos robustos.
 Permiten modularizar, asegurar y optimizar el acceso a los datos, reduciendo errores y mejorando la eficiencia del sistema.
 Además, facilitan la consistencia lógica de las operaciones y la coordinación entre transacciones, integrándose estrechamente con otros mecanismos del gestor, como los disparadores, vistas y funciones definidas por el usuario.
+
+### BIBLIOGRAFIA
+1. Microsoft. (2025). Microsoft Learn. https://learn.microsoft.com/es-es/sql/relational-databases/stored-procedures/stored-procedures-database-engine?view=sql-server-ver17
+3. W3Schools. SQL Stored Procedures for SQL Server. https://www.w3schools.com/sql/sql_stored_procedures.asp
