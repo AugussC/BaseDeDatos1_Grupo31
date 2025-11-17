@@ -142,11 +142,58 @@ CALL nombre_procedimiento(valor);
 
 También pueden ser invocados desde otras aplicaciones o desde dentro de otro procedimiento (anidamiento), lo que permite construir estructuras modulares y jerárquicas.
 
+## Diferencias entre Procedimientos Almacenados y Funciones Definidas por el Usuario
+### 1. Tipo de operación
+
+Procedimientos almacenados (SP):
+Ejecutan operaciones completas: inserts, updates, deletes, prints, manejo de transacciones, llamadas a otros SP, etc.
+
+Funciones (UDF):
+Devuelven un valor (escalar) o una tabla.
+Solo pueden calcular y devolver datos, nunca modificar tablas.
+
+## 2. Uso en consultas
+
+SP:
+NO pueden usarse en SELECT, WHERE, JOIN, etc.
+### 3. Permiten transacciones
+
+SP:
+Sí pueden iniciar, confirmar o deshacer transacciones (BEGIN TRAN / COMMIT / ROLLBACK).
+
+UDF:
+No permiten transacciones.
+
+### 4. Efectos secundarios
+
+SP:
+Pueden generar efectos secundarios (modificar datos, imprimir mensajes, ejecutar SP anidados).
+
+UDF:
+No pueden modificar nada fuera de sí mismas.
+No prints, no inserts, no updates.
+
+### 5. Valores de retorno
+
+SP:
+Pueden devolver cero o muchos conjuntos de resultados (SELECTs).
+Opcionalmente un valor de retorno entero (RETURN 0).
+También pueden usar parámetros OUTPUT.
+
+UDF:
+Devuelven exactamente un valor:
+
 ## Procedimientos Almacenados y Concurrencia
 
 Al ejecutarse en el servidor, los procedimientos almacenados aprovechan el control de concurrencia del motor de base de datos. Esto evita conflictos entre usuarios simultáneos que intentan acceder o modificar los mismos datos.
 
 Mediante mecanismos de bloqueo (locking) y aislamiento (isolation levels), se garantiza que cada procedimiento mantenga la integridad de las operaciones que realiza.
+
+## Evaluacion del rendimiento
+Se realizo una pequeña prueba de eficiencia para obesrvar la comparacion de operaciones directas y procediementos almacenados. En la prueba que realizamos se puede
+observar una diferencia de 1 ms a favor de la operacion directa por sobre la operacion con procedimientos. Esta diferencia se puede evidenciar mas
+segun la cantidad de registros cargados.(La prueba se realizo con los datos cargados en el lote de datos subido)
+![imagen1](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%202%20Procedimientos%20Almacenados/MensajePruebaEficiencia.jpg?raw=true)
 
 ## Conclusión
 
