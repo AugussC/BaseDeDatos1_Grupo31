@@ -125,9 +125,12 @@ El trabajo se realizó utilizando las siguientes herramientas y procedimientos:
 
 
 # CAPÍTULO IV: DESARROLLO DEL TEMA / PRESENTACIÓN DE RESULTADOS 
-Lo primero que decidimos implementar fue el diagrama en el modelo relacional a partir de la investigaciones que hicimos sobre como funcionaba el sistema actual y las modificaciones que proponiamos. Este fue el resultado del mismo:
+Lo primero que decidimos implementar fue el diagrama en el modelo relacional y el de entidad-relacion a partir de la investigaciones que hicimos sobre como funcionaba el sistema actual y las modificaciones que proponiamos.
+Estos fueron los resultados de ambos diagramas:
 
-![imagen1](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/ModeloRelacional_Operador911.jpg)
+![imagen1](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/ModeloRelacional_Operador911.png)
+
+![imagen15](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/EntidadRelacion_Operador911.png)
 
 DICCIONARIO DE DATOS\
 Este diccionario de datos documenta las tablas, campos y relaciones de la base de datos del proyecto. Su objetivo es facilitar la comprensión, el desarrollo y el mantenimiento del sistema, asegurando la correcta gestión e integridad de la información.
