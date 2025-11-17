@@ -175,15 +175,38 @@ Los principales resultados del desarrollo fueron los siguientes:
 
 ![imagen9](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/DER/BaseDatos%20y%20Script/lotePruebas/Captura%20de%20pantalla%202025-11-15%20121123.png)
 
+**Desarrollo de los Temas**
+
+[Tema_1](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%202%20Procedimientos%20Almacenados/Tema2ProcedimientosAlmacenados.md):
+Los procedimientos almacenados son bloques de código SQL precompilados y almacenados en el servidor que permiten ejecutar operaciones de manera eficiente, segura y reutilizable. Su uso centraliza la lógica de negocio, reduce el tráfico entre cliente y servidor y mejora el rendimiento al reutilizar planes de ejecución ya compilados. Pueden recibir parámetros de entrada y salida, devolver valores, manejar errores mediante TRY…CATCH e incluso controlar transacciones completas. Existen distintos tipos, como procedimientos definidos por el usuario, del sistema, recursivos o temporales, todos útiles para automatizar tareas, validar datos y restringir el acceso directo a las tablas. Al ejecutarse dentro del motor de la base de datos, aprovechan los mecanismos de concurrencia y aislamiento para garantizar integridad y consistencia, convirtiéndose en una herramienta esencial para el diseño de sistemas robustos, modulares y seguros.
+
+[Tema_2](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Optimizaci%C3%B3n_de_consultas_a_trav%C3%A9s_de_%C3%ADndices.md):
+El proyecto evaluó cómo distintos tipos de índices mejoran el rendimiento de consultas en una tabla de un millón de registros, analizando tres escenarios: sin índice, con índice agrupado y con un índice no agrupado cubriente. Se comprobó que el Table Scan del escenario base obligaba al motor a leer toda la tabla, generando más de 10.000 lecturas lógicas. Al aplicar un índice agrupado sobre fecha_creacion, las búsquedas por rango se optimizaron significativamente, reduciendo las lecturas a 1.680 gracias a un acceso ordenado y directo a los datos. El mejor rendimiento se obtuvo con el índice cubriente, que permitió resolver la consulta sin acceder a la tabla base, reduciendo las lecturas a solo 1.157. Aunque los tiempos de ejecución fueron similares debido al uso de caché, las métricas reales demostraron que los índices —especialmente los cubrientes— son esenciales para optimizar consultas en sistemas de gran volumen y mejorar la eficiencia del motor de base de datos.
+
+[Tema_3](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%201%20Manejo%20de%20Transacciones/Manejo%20de%20Transacciones%20y%20Transaccion.md): 
+El manejo de transacciones en bases de datos garantiza que un conjunto de operaciones se ejecute de forma íntegra y segura, manteniendo siempre la consistencia del sistema gracias a las propiedades ACID (atomicidad, consistencia, aislamiento y durabilidad). Las transacciones pueden ser planas o anidadas, permitiendo estas últimas organizar procesos complejos mediante subtransacciones, aunque en SQL Server solo la transacción externa controla realmente el commit y el rollback. Según el orden de lectura y escritura, existen transacciones generales, restringidas y de dos pasos, mientras que SQL Server ofrece modos automáticos, explícitos e implícitos para gestionarlas. En entornos centralizados y distribuidos, el control de concurrencia, la integridad, la coordinación entre nodos y los protocolos de recuperación son esenciales para garantizar que los datos permanezcan correctos incluso ante fallas. En conjunto, las transacciones permiten ejecutar operaciones críticas con seguridad, eficiencia y confiabilidad, fortaleciendo la integridad de los sistemas de información.
+
+[Tema_4](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%204%20Triggers/Triggers.md):
+Los triggers son objetos de la base de datos que se ejecutan automáticamente cuando ocurre un evento como INSERT, UPDATE o DELETE, permitiendo automatizar tareas sin intervención del usuario. Se utilizan para auditoría, seguridad, validaciones y acciones automáticas entre tablas. En SQL Server existen triggers AFTER, que se ejecutan una vez completada la operación, e INSTEAD OF, que la reemplazan para modificar o bloquear su comportamiento. Trabajan con las tablas lógicas inserted y deleted, que guardan los valores nuevos y anteriores para comparar cambios. Sus ventajas incluyen garantizar reglas de integridad y registrar auditoría incluso si la aplicación no lo hace, aunque requieren cuidado porque pueden afectar la performance y volver el sistema difícil de mantener. En el proyecto aplicado, los triggers se usaron para auditar cambios en la tabla Alerta y para impedir la eliminación de usuarios, aportando trazabilidad y mayor integridad al sistema.
+
+
 # CAPÍTULO V: CONCLUSIONES  
 
-El estudio del manejo de transacciones y transacciones anidadas [Tema_3](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%201%20Manejo%20de%20Transacciones/Manejo%20de%20Transacciones%20y%20Transaccion.md) permitió comprender cómo los sistemas de bases de datos garantizan la integridad y coherencia de la información incluso ante fallas o múltiples operaciones concurrentes. A través del análisis de las instrucciones básicas de control, como BEGIN TRANSACTION, COMMIT y ROLLBACK, se evidenció la importancia de asegurar que todas las operaciones de una transacción se ejecuten de manera completa o no se apliquen, respetando las propiedades ACID que sustentan la confiabilidad del sistema.
+El desarrollo del proyecto “Sistema de Gestión del Operador 911” permitió integrar los contenidos teóricos y prácticos, aplicándolos a un caso real que demanda organización, seguridad y eficiencia en el manejo de la información. A lo largo del trabajo se diseñó, implementó y probó una base de datos capaz de representar el flujo operativo de un centro de emergencias, desde la recepción de llamados hasta la asignación de recursos policiales y la generación de reportes.
 
-Asimismo, se diferenciaron las transacciones planas de las anidadas, destacando cómo estas últimas permiten estructurar operaciones complejas mediante subtransacciones que mejoran la concurrencia y facilitan la recuperación parcial. También se exploraron los distintos tipos de transacciones según el orden de lectura y escritura, junto con los modelos de ejecución serializada y calendarizada, fundamentales para mantener el aislamiento y el rendimiento.
+En primer lugar, la construcción del modelo conceptual y lógico facilitó comprender en profundidad los procesos actuales del sistema 911, permitiendo reorganizarlos y mejorarlos para obtener una estructura de datos coherente, trazable y escalable. A partir de este diseño se implementaron tablas, relaciones y restricciones que aseguraron la integridad referencial y la consistencia de la información almacenada.
 
-Finalmente, se analizaron los mecanismos de control y confiabilidad que aseguran la correcta ejecución tanto en entornos centralizados como distribuidos. En conjunto, todos estos conceptos permiten diseñar sistemas robustos, seguros y eficientes, capaces de manejar operaciones críticas sin comprometer la integridad de los datos.
+La implementación de procedimientos almacenados, índices, transacciones y triggers permitió profundizar en los temas centrales de la asignatura y comprender su importancia en sistemas reales:
 
+* Los procedimientos almacenados demostraron ser fundamentales para centralizar la lógica de negocio, mejorar el rendimiento y simplificar operaciones repetitivas.
 
+* El estudio de la optimización mediante índices evidenció mejoras significativas en la eficiencia de consultas, especialmente con índices cubrientes, que redujeron notoriamente las lecturas lógicas en tablas con grandes volúmenes de datos.
+
+* El análisis del manejo de transacciones permitió comprender cómo garantizar integridad y confiabilidad en operaciones críticas, evitando inconsistencias ante fallas o accesos concurrentes.
+
+* Los triggers aportaron auditoría, seguridad y automatización, reforzando la trazabilidad en tablas sensibles como Alerta y previniendo acciones que podrían comprometer la estabilidad del sistema.
+
+En conjunto, todos estos componentes dieron lugar a un sistema robusto, ordenado y funcional, que refleja fielmente los principios fundamentales del diseño de bases de datos relacionales. Además, el proyecto permitió valorar la importancia de la planificación, la documentación y las pruebas en cada etapa de desarrollo. Como resultado, se logró generar una base sólida que podría ser ampliada en futuras versiones, incorporando módulos avanzados como geolocalización en tiempo real, integración con sistemas externos y automatización de reportes.
 
 
 # CAPÍTULO VI: BIBLIOGRAFÍA. 
@@ -191,3 +214,8 @@ Finalmente, se analizaron los mecanismos de control y confiabilidad que aseguran
 1. Ambler, S. W. (s.f.). Transaction control. AgileData.org. https://agiledata.org/essays/transactioncontrol.html
 2. Microsoft. (2025). BEGIN TRANSACTION (Transact-SQL). Microsoft Learn. https://learn.microsoft.com/es-es/sql/t-sql/language-elements/begin-transaction-transact-sql
 3. Jeremiah, O. (2023). Transacciones SQL: Qué son y cómo usarlas. DataCamp. https://datacamp.com/es/tutorial/sql-transactions
+4. Microsoft. (2025). Microsoft Learn. https://learn.microsoft.com/es-es/sql/relational-databases/stored-procedures/stored-procedures-database-engine?view=sql-server-ver17
+5. W3Schools. SQL Stored Procedures for SQL Server. https://www.w3schools.com/sql/sql_stored_procedures.asp
+6. Microsoft (2025). *SQL Server Index Design Guide*. Recuperado de: `https://learn.microsoft.com/es-es/sql/relational-databases/sql-server-index-design-guide`
+7. Microsoft (2025). *Indexes - SQL Server*. Recuperado de: `https://learn.microsoft.com/es-es/sql/relational-databases/indexes/indexes?view=sql-server-ver16`
+

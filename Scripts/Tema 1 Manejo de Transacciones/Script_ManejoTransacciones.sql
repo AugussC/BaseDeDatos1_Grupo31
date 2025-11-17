@@ -1,7 +1,7 @@
 ﻿/* 
----------------------------------------------------------------
+
   TEMA: MANEJO DE TRANSACCIONES Y TRANSACCIONES ANIDADAS
----------------------------------------------------------------
+
 Las transacciones permiten ejecutar un conjunto de instrucciones 
 SQL como una unidad lógica: o todas se completan con éxito (COMMIT)
 o ninguna se aplica (ROLLBACK). 
@@ -11,9 +11,6 @@ se ejecuta otra (por ejemplo, un procedimiento que llama a otro).
 Esto permite mayor control: se pueden realizar “savepoints” para 
 deshacer parcialmente operaciones sin cancelar toda la transacción.
 
----------------------------------------------------------------
-  CASO PRÁCTICO – SISTEMA DE ALERTAS POLICIALES
----------------------------------------------------------------
 Escenario:
 - Cuando llega una nueva alerta, se asigna una patrulla disponible.
 - Simultáneamente se registra la ubicación actual de esa patrulla.
@@ -27,9 +24,8 @@ El proceso se realiza usando dos procedimientos:
 
 -------------------------------------------------------------- Tipos de Transacciones ---------------------------------------------------------------
 
----------------------------------------------------------------
+
 -- Transacciones de Confirmacion Automatica
----------------------------------------------------------------
 -- Cada instrucción se ejecuta como una transacción independiente
 -- SQL Server realiza COMMIT automáticamente.
 INSERT INTO Patrulla (codigo_patrulla, tipo, estado, id_comisaria, activo)
@@ -37,9 +33,7 @@ VALUES ('A-406', 'Auto', 'En Base', 3, 1);
 PRINT 'Transacción automática ejecutada correctamente.';
 GO
 
----------------------------------------------------------------
 -- Transacción Implícita
----------------------------------------------------------------
 SET IMPLICIT_TRANSACTIONS ON;
 
 -- SQL Server abre una transacción automáticamente
@@ -63,9 +57,7 @@ PRINT 'Transacción implícita revertida.';
 SET IMPLICIT_TRANSACTIONS OFF;
 GO
 
----------------------------------------------------------------
 -- EJEMPLO: Transacción de Ámbito de Lote (Batch-Scoped - MARS)
----------------------------------------------------------------
 -- Con MARS activado, las transacciones deben finalizar
 -- dentro del lote donde fueron iniciadas.
 
@@ -92,9 +84,7 @@ GO
 -------------------------------------------------------------- Caso Practico ---------------------------------------------------------------
 
 /* 
----------------------------------------------------------------
   TEMA: MANEJO DE TRANSACCIONES Y TRANSACCIONES ANIDADAS
----------------------------------------------------------------
 */
 
 DROP PROCEDURE IF EXISTS sp_AsignarPatrullaAAlerta;
@@ -103,9 +93,7 @@ DROP PROCEDURE IF EXISTS sp_RegistrarUbicacionPatrulla;
 GO
 
 
----------------------------------------------------------------
 -- PROCEDIMIENTO ANIDADO: REGISTRAR UBICACIÓN DE PATRULLA
----------------------------------------------------------------
 CREATE OR ALTER PROCEDURE sp_RegistrarUbicacionPatrulla
     @id_patrulla INT,
     @latitud DECIMAL(9,6),
@@ -129,9 +117,7 @@ END;
 GO
 
 
----------------------------------------------------------------
 -- PROCEDIMIENTO PRINCIPAL: ASIGNAR PATRULLA A ALERTA
----------------------------------------------------------------
 CREATE OR ALTER PROCEDURE sp_AsignarPatrullaAAlerta
     @id_alerta INT,
     @id_patrulla INT,
@@ -186,30 +172,22 @@ BEGIN
 END;
 GO
 
----------------------------------------------------------
 -- TRANSACCIÓN CON ERROR INTENCIONAL PARA PROBAR ROLLBACK
----------------------------------------------------------
 BEGIN TRY
     BEGIN TRAN;
 
-    -----------------------------------------------------
-    -- 1) INSERTAR ALERTA (NO DEBE QUEDAR)
-    -----------------------------------------------------
+    -- 1) INSERTAR ALERTA CON ERROR INTENCIONAL
     INSERT INTO Alerta (estado, importancia, tipo_incidencia, direccion, fecha_cierre, id_usuario, id_patrulla, id_canal)
     VALUES ('En Espera', 'Invalida', 'Incendio', 'Belgrano 450', NULL, 1, NULL, 2);
     -- La importancia de la Alerta tiene un check que no me permite poner otra cosa que no sea Alta, Media o Baja 
     DECLARE @idAlerta2 INT = SCOPE_IDENTITY();
 
-    -----------------------------------------------------
-    -- 2) INSERTAR LLAMADA (NO DEBE HACERSE)
-    -----------------------------------------------------
+    -- 2) INSERTAR LLAMADA
     INSERT INTO Llamada (fecha_creacion, nombre, telefono, id_alerta)
     VALUES (GETDATE(), 'Carlos Perez', '3519998877', @idAlerta2);
 
 
-    -----------------------------------------------------
-    -- 3) UPDATE REPORTE (NO DEBE HACERSE)
-    -----------------------------------------------------
+    -- 3) UPDATE REPORTE
     UPDATE Reporte
     SET descripcion = 'NO debería verse este texto.'
     WHERE id_reporte = 1;
@@ -262,9 +240,7 @@ WHERE a.estado = 'En Espera';
 GO
 
 
----------------------------------------------------------------
 -- PRUEBA 1: TRANSACCIÓN EXITOSA
----------------------------------------------------------------
 EXEC sp_AsignarPatrullaAAlerta 
     @id_alerta = 45, -- Puede variar de 45 a 51
     @id_patrulla = 14,  -- patrulla libre
@@ -281,9 +257,7 @@ WHERE id_alerta = 45
 UPDATE ALERTA
 SET id_patrulla = NULL
 WHERE id_alerta = 45
----------------------------------------------------------------
--- PRUEBA 2: TRANSACCIÓN FALLIDA (PATRULLA YA ASIGNADA)
----------------------------------------------------------------
+-- PRUEBA 2: TRANSACCIÓN FALLIDA (PATRULLA YA ASIGNADA)-
 EXEC sp_AsignarPatrullaAAlerta 
     @id_alerta = 46,
     @id_patrulla = 13,  -- patrulla ocupada
@@ -300,9 +274,7 @@ EXEC sp_AsignarPatrullaAAlerta
     @orden = 1;
 GO
 
----------------------------------------------------------------
 -- FIN DEL SCRIPT - CONSULTAS DE CONTROL
----------------------------------------------------------------
 SELECT * FROM Alerta;
 SELECT * FROM Llamada;
 SELECT * FROM Ubicacion;
