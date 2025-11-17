@@ -1,6 +1,5 @@
 # Informe del Proyecto: Optimización de Consultas a Través de Índices
 
----
 
 ### 1. Introducción
 
@@ -31,7 +30,6 @@ Un índice no agrupado es una estructura de datos independiente. Se denomina **c
     INCLUDE (nombre, telefono, id_llamada);
     ```
 
----
 
 ### 3. Metodología y Preparación de la Base de Datos
 
@@ -49,7 +47,6 @@ WHERE fecha_creacion >= '2022-01-01' AND fecha_creacion < '2023-01-01'
 ORDER BY fecha_creacion;
 ```
 
----
 
 ### 4. Resultados de las Pruebas
 
@@ -73,13 +70,13 @@ Por esta razón, la métrica más fiable para medir el consumo y el trabajo real
 #### 4.3. Evaluación del Rendimiento
 
 * **Escenario 1 (Baseline):** El plan de ejecución mostró un `Table Scan` (costo 76%). El motor se vio obligado a leer la tabla completa (**10,330** páginas) y luego crear una "Worktable" para ordenar los resultados, un proceso altamente ineficiente.
-   
+![imagen10]([[https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema 3 Optimización de consultas a través de índices/Imagen1_TableSacan.png](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Imagen1_TableSacan.png)])
 
 * **Escenario 2 (Índice Agrupado):** El plan cambió a un `Clustered Index Seek`. Al estar los datos físicamente ordenados por fecha, el motor solo tuvo que leer las páginas que contenían el rango de 2022. Esto redujo las lecturas en un 84%, de 10,330 a 1,680.
-    
+![imagen13]([[https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Imagen2_ClusteredIndexSeek.png](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Imagen2_ClusteredIndexSeek.png)])    
 
 * **Escenario 3 (Índice Cubriente):** El plan mostró un `Index Seek (NonClustered)` limpio. Este fue el escenario más eficiente, reduciendo las lecturas a solo **1,157** (una reducción total del 89%). El motor nunca tocó la tabla base; leyó solo la estructura del índice, que era más "delgada" y compacta que el índice agrupado (que es la tabla entera).
-    
+![imagen12]([[https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Imagen2_ClusteredIndexSeek.png](https://github.com/AugussC/BaseDeDatos1_Grupo31/blob/main/Scripts/Tema%203%20Optimizaci%C3%B3n%20de%20consultas%20a%20trav%C3%A9s%20de%20%C3%ADndices/Imagen3_IndexSeek.png)])
 
 ---
 
@@ -93,8 +90,6 @@ Aunque los tiempos de respuesta fueron similares debido al almacenamiento en cac
 2.  El **Índice No Agrupado Cubriente** fue el ganador en eficiencia (89% menos lecturas), ya que era una estructura más pequeña y especializada que satisfizo la consulta al 100% sin tocar la tabla principal.
 
 Este proyecto confirma que entender los tipos de índices y cómo cubren una consulta es esencial para diseñar un sistema de base de datos rápido y escalable.
-
----
 
 ### 6. Bibliografía
 
